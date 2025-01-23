@@ -1,15 +1,12 @@
 package com.aptiv.settings.component.network
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,14 +33,12 @@ import com.aptiv.settings.model.WifiConnectState
 import com.aptiv.settings.model.WifiDeviceInfo
 import com.aptiv.settings.model.WifiSignalLevel
 import com.aptiv.settings.ui.theme.Color_Text_Black_80
-import com.aptiv.settings.ui.theme.Color_Toggle_Selected
 import com.aptiv.settings.ui.views.CardHorSwitchListView
 import com.aptiv.settings.ui.views.CardToggleView
 import com.aptiv.settings.ui.views.CardVerListView
 import com.aptiv.settings.ui.views.DescText
 import com.aptiv.settings.ui.views.HorizontalListDivider
 import com.aptiv.settings.ui.widgt.ImageBtn
-import com.aptiv.settings.ui.widgt.TextBtn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -115,6 +110,7 @@ private fun AvailableWifiDeviceList() {
 @Composable
 private fun HotspotToggle(viewModel: NetworkViewModel) {
     CardToggleView(
+        margins = PaddingValues(top = 60.dp, bottom = 24.dp),
         description = stringResource(id = R.string.toggle_hotspot_desc),
         subDescription = viewModel.hotspotName,
         toggled = viewModel.toggleHotspotState.value
@@ -155,40 +151,39 @@ private fun PasswordEditView() {
             .padding(top = 44.dp, bottom = 24.dp),
         description = stringResource(R.string.change_password_desc)
     )
-    Row() {
-        TextField(
-            modifier = Modifier
-                .width(548.dp)
-                .height(72.dp)
-                .paint(
-                    painter = painterResource(R.drawable.ic_edittext_bg),
-                    contentScale = ContentScale.FillBounds
-                ),
-            value = "",
-            readOnly = true,
-            colors = TextFieldDefaults.colors(
-                // 背景颜色
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                disabledContainerColor = Color.Transparent,
-                // 边框颜色
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
+    TextField(
+        modifier = Modifier
+            .padding(bottom = 20.dp)
+            .width(548.dp)
+            .height(72.dp)
+            .paint(
+                painter = painterResource(R.drawable.ic_edittext_bg),
+                contentScale = ContentScale.FillBounds
             ),
-            trailingIcon = {
-                Row {
-                    ImageBtn(iconResId = R.drawable.ic_edittext_hide_password) {
-                        logInfo(TAG, "NetworkComponent hide password")
-                    }
-                    ImageBtn(iconResId = R.drawable.ic_edittext_modify_password) {
-                        logInfo(TAG, "NetworkComponent modify password")
-                    }
+        value = "",
+        readOnly = true,
+        colors = TextFieldDefaults.colors(
+            // 背景颜色
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            // 边框颜色
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+        ),
+        trailingIcon = {
+            Row {
+                ImageBtn(iconResId = R.drawable.ic_edittext_hide_password) {
+                    logInfo(TAG, "NetworkComponent hide password")
                 }
-            }, onValueChange = {
-                logInfo(TAG, "NetworkComponent password changed: $it")
-            })
-    }
+                ImageBtn(iconResId = R.drawable.ic_edittext_modify_password) {
+                    logInfo(TAG, "NetworkComponent modify password")
+                }
+            }
+        }, onValueChange = {
+            logInfo(TAG, "NetworkComponent password changed: $it")
+        })
 }
 
 
@@ -196,9 +191,9 @@ private fun PasswordEditView() {
 private fun WifiDeviceItem(wifiDeviceInfos: List<WifiDeviceInfo>, index: Int) {
     val wifiDeviceInfo = wifiDeviceInfos[index]
     val iconRes = when (wifiDeviceInfo.signalLevel) {
-        WifiSignalLevel.WEAK -> R.drawable.ic_list_wifi_signal_weak
-        WifiSignalLevel.MEDIUM -> R.drawable.ic_list_wifi_signal_medium
-        WifiSignalLevel.STRONG -> R.drawable.ic_list_wifi_signal_strong
+        WifiSignalLevel.WEAK -> R.drawable.ic_netword_signal_medium
+        WifiSignalLevel.MEDIUM -> R.drawable.ic_netword_signal_medium
+        WifiSignalLevel.STRONG -> R.drawable.ic_netword_signal_medium
     }
 
     val connected = wifiDeviceInfo.connectState == WifiConnectState.CONNECTED
@@ -212,28 +207,24 @@ private fun WifiDeviceItem(wifiDeviceInfos: List<WifiDeviceInfo>, index: Int) {
         Text(
             modifier = Modifier.weight(1f),
             text = wifiDeviceInfo.deviceName,
-            color = if (connected) Color_Toggle_Selected else Color_Text_Black_80,
+            color = Color_Text_Black_80,
             fontSize = 28.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
         ImageBtn(
-            iconResId = R.drawable.ic_list_wifi_device_lock,
-            marginValues = PaddingValues(end = 20.dp)
+            iconResId = R.drawable.ic_network_device_lock,
         ) {
             logInfo(TAG, "wifi device lock clicked")
         }
-
-        Icon(
-            modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp)
-                .size(72.dp),
-            painter = painterResource(iconRes),
-            tint = Color.Unspecified,
-            contentDescription = null
-        )
-
-        ImageBtn(iconResId = R.drawable.ic_list_wifi_device_info) {
+        ImageBtn(
+            iconResId = iconRes,
+        ) {
+            logInfo(TAG, "wifi device signal clicked")
+        }
+        ImageBtn(
+            iconResId = R.drawable.ic_network_device_info,
+        ) {
             logInfo(TAG, "wifi device info clicked")
         }
     }
@@ -248,46 +239,33 @@ fun HotspotItem(hotspotInfos: List<HotspotInfo>, index: Int, isBlackList: Boolea
     val hotspotInfo = hotspotInfos[index]
     Row(
         modifier = Modifier
+            .padding(start = 24.dp, end = 24.dp)
             .fillMaxWidth()
             .height(100.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp)
-                .size(72.dp),
-            painter = painterResource(R.drawable.ic_list_hotspot),
-            tint = Color.Black,
-            contentDescription = null
+        Text(
+            modifier = Modifier.weight(1f),
+            text = hotspotInfo.hotspotName,
+            color = Color_Text_Black_80,
+            fontSize = 28.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = hotspotInfo.hotspotName,
-                color = Color_Text_Black_80,
-                fontSize = 24.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                modifier = Modifier
-                    .padding(top = 3.dp)
-                    .fillMaxWidth(),
-                text = hotspotInfo.hotspotIp,
-                color = Color_Text_Black_80,
-                fontSize = 16.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
-        val stringRes =
-            if (isBlackList) R.string.list_hotspot_black_device_btn else R.string.list_hotspot_connected_device_btn
-        TextBtn(
-            marginValues = PaddingValues(end = 40.dp),
-            iconResId = stringRes,
-            fontSize = 20.sp
+        ImageBtn(
+            iconResId = R.drawable.ic_network_device_lock,
         ) {
-            logInfo(TAG, "connect button onClick: $index")
+            logInfo(TAG, "wifi device lock clicked")
+        }
+        ImageBtn(
+            iconResId = R.drawable.ic_netword_signal_medium,
+        ) {
+            logInfo(TAG, "wifi device signal clicked")
+        }
+        ImageBtn(
+            iconResId = R.drawable.ic_network_device_info,
+        ) {
+            logInfo(TAG, "wifi device info clicked")
         }
     }
 
