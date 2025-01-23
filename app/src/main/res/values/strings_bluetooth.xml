@@ -1,0 +1,15 @@
+<resources>
+<string name="toggle_bluetooth_desc">蓝牙开关</string>
+    <string name="toggle_bluetooth_visibility_desc">开放检测</string>
+    <string name="toggle_bluetooth_visibility_sub_desc">开启后,可被其他设备发现</string>
+
+    <string name="list_my_devices_title">已配对设备</string>
+    <string name="list_nearby_devices_title">可用新设备</string>
+
+    <string name="list_devices_connect_btn">Connect</string>
+    <string name="list_devices_disconnect_btn">Disconnect</string>
+
+    <string name="bluetooth_setting_title">Setting</string>
+    <string name="bluetooth_name_desc">Bluetooth Name</string>
+
+</resources>

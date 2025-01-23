@@ -1,0 +1,9 @@
+<resources>
+    <!--左边的tab列表-->
+    <string name="tab_bluetooth">蓝牙</string>
+    <string name="tab_network">网络</string>
+    <string name="tab_sound">声音</string>
+    <string name="tab_security">安全</string>
+    <string name="tab_performance">性能监控</string>
+
+</resources>

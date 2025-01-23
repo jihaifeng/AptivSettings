@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- energy switch text-->
+    <string name="switch_energy_title">Energy recovery</string>
+    <string name="switch_energy_low">Low</string>
+    <string name="switch_energy_middle">Middle</string>
+    <string name="switch_energy_high">High</string>
+
+    <!-- mirror switch text-->
+    <string name="switch_mirror_title">Reverse and flip down the rearview mirror</string>
+    <string name="switch_mirror_off">OFF</string>
+    <string name="switch_mirror_left">Left</string>
+    <string name="switch_mirror_right">Right</string>
+    <string name="switch_mirror_all">ALL</string>
+
+
+    <string name="toggle_seat_switch_desc">"Driver's seat is convenient for entry and exit"</string>
+    <string name="toggle_lock_switch_desc">Approaching the automatic unlocking of the vehicle</string>
+
+</resources>

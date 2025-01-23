@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="content_split_width">1dp</dimen>
+    <dimen name="content_padding_top">48dp</dimen>
+    <dimen name="content_padding_bottom">70dp</dimen>
+    <dimen name="content_padding_start">72dp</dimen>
+    <dimen name="content_padding_end">72dp</dimen>
+    <dimen name="tab_list_width">430dp</dimen>
+    <dimen name="tab_item_height">120dp</dimen>
+    <dimen name="tab_item_padding">40dp</dimen>
+    <dimen name="tab_name">26dp</dimen>
+    <dimen name="tab_icon">72dp</dimen>
+</resources>

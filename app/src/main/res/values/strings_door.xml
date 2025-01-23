@@ -1,0 +1,18 @@
+<resources>
+    <string name="quick_control_electric_door_desc">"Driver's electric door"</string>
+    <string name="quick_control_child_lock">Rear child lock</string>
+    <string name="quick_control_door_lock">vehicle door lock</string>
+
+
+    <!-- door lock switch text-->
+    <string name="switch_door_lock_title">Approaching automatic unlocking</string>
+    <string name="switch_door_lock_close">Close</string>
+    <string name="switch_door_lock_driver">driver door</string>
+    <string name="switch_door_lock_all">All door</string>
+
+    <!-- door electric switch text-->
+    <string name="switch_door_electric_title">"Driver's electric door"</string>
+    <string name="switch_door_electric_open_half">Open half</string>
+    <string name="switch_door_electric_driver">driver door</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<resources>
+    <!-- lighting switch text -->
+    <string name="switch_lighting_title">Lighting</string>
+
+    <!-- headlight switch text -->
+    <string name="switch_headlight_title">Automatic headlight height</string>
+    <string name="switch_headlight_low">Low</string>
+    <string name="switch_headlight_middle">Middle</string>
+    <string name="switch_headlight_high">High</string>
+
+    <!-- light toggle text -->
+    <string name="toggle_headlight_desc">Adaptive headlights</string>
+    <string name="toggle_lighting_desc">Provide lighting during curved road sections</string>
+
+    <!-- fog lamp quick control button text -->
+    <string name="quick_control_fog_lamp_desc">Rear fog lamp</string>
+</resources>

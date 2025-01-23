@@ -1,0 +1,10 @@
+<resources>
+    <string name="quick_control_hotspot">Hotspot</string>
+
+    <string name="list_hotspot_connected_device_title">Connected devices</string>
+    <string name="list_hotspot_black_device_title">Blacklist</string>
+
+    <string name="list_hotspot_connected_device_btn">Join in blacklist</string>
+    <string name="list_hotspot_black_device_btn">Remove</string>
+
+</resources>

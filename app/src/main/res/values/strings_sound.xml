@@ -1,0 +1,24 @@
+<resources>
+    <string name="slider_media_volume_desc">Media volume</string>
+    <string name="slider_nav_volume_desc">Navigation volume</string>
+    <string name="slider_voice_volume_desc">Voice Volume</string>
+    <string name="slider_call_volume_desc">Call volume</string>
+
+    <string name="switch_volume_change_title">Volume changes with vehicle speed</string>
+    <string name="switch_volume_change_close">Close</string>
+    <string name="switch_volume_change_low">Low</string>
+    <string name="switch_volume_change_middle">Middle</string>
+    <string name="switch_volume_change_high">High</string>
+
+
+    <string name="toggle_system_beep_desc">System beep</string>
+    <string name="toggle_startup_sound_desc">Start-up sound</string>
+    <string name="toggle_speed_chimes_desc">Low Speed Warning Chimes</string>
+
+    <string name="switch_enhancement_sound_title">Information Enhancement Sound</string>
+    <string name="switch_enhancement_sound_close">Close</string>
+    <string name="switch_enhancement_sound_low">Low</string>
+    <string name="switch_enhancement_sound_middle">Middle</string>
+    <string name="switch_enhancement_sound_high">High</string>
+
+</resources>

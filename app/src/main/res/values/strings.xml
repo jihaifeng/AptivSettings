@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AptivVehicleSetting</string>
+
+    <string name="intent_scheme">tabs</string>
+    <string name="intent_host">com.aptiv.settings</string>
+
+</resources>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="toggle_wifi_desc">无线网络</string>
+    <string name="list_wifi_saved_devices_desc">已保存网络</string>
+    <string name="list_wifi_available_device_desc">可连接网络</string>
+
+    <string name="toggle_hotspot_desc">个人热点</string>
+    <string name="switch_hotspot_desc">频段设置</string>
+    <string name="switch_hotspot_2g">2.4G</string>
+    <string name="switch_hotspot_5g">5G</string>
+
+    <string name="change_password_desc">密码设置</string>
+    <string name="list_hotspot_connected_desc">已连接设备列表</string>
+</resources>
