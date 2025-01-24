@@ -3,7 +3,6 @@ package com.aptiv.settings
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -57,7 +56,6 @@ import com.aptiv.settings.component.sound.SoundViewModel
 import com.aptiv.settings.model.TAB_INFO_LIST
 import com.aptiv.settings.model.TabInfo
 import com.aptiv.settings.model.Type
-import com.aptiv.settings.permissions.permission
 import com.aptiv.settings.permissions.permissions
 import com.aptiv.settings.ui.theme.AptivMediaPlayerTheme
 import com.aptiv.settings.ui.theme.Color_TabName_Normal
@@ -68,6 +66,17 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         const val TAG = "MainActivity"
+
+        private val PERMISSIONS_LIST = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+        )
     }
 
     private val bluetoothViewModel: BluetoothViewModel by lazy {
@@ -86,11 +95,6 @@ class MainActivity : ComponentActivity() {
         ViewModelProvider(this, ViewModelFactory(this))[PerformanceViewModel::class.java]
     }
 
-    private val PERMISSIONS_LIST = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.BLUETOOTH_SCAN,
-        Manifest.permission.BLUETOOTH_CONNECT,
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

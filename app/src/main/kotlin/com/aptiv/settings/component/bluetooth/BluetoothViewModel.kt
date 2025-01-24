@@ -130,6 +130,10 @@ class BluetoothViewModel(ctx: Context) : BaseViewModel(ctx) {
         handleBluetoothStateChange()
     }
 
+    override fun onCleared() {
+        context.unregisterReceiver(btReceiver)
+        super.onCleared()
+    }
 
     override fun getLogTag(): String {
         return BluetoothViewModel::class.java.simpleName
