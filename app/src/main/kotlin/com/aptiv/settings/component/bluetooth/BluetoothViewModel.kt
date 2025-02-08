@@ -157,16 +157,22 @@ class BluetoothViewModel(ctx: Context) : BaseViewModel(ctx) {
         viewModelScope.launch(Dispatchers.IO) {
             toggleDiscoverableState.value = isOpened
             if (isOpened) {
-                BluetoothAdapter::class.java.getMethod(
+                val scanModeMethod = BluetoothAdapter::class.java.getMethod(
                     "setScanMode",
                     Int::class.javaPrimitiveType
                 )
-                    .invoke(btAdapter, BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE)
-                BluetoothAdapter::class.java.getMethod(
+                scanModeMethod.isAccessible = true
+                scanModeMethod.invoke(
+                    btAdapter,
+                    BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE
+                )
+
+                val timeoutMethod = BluetoothAdapter::class.java.getMethod(
                     "setDiscoverableTimeout",
                     Duration::class.javaPrimitiveType
                 )
-                    .invoke(btAdapter, Duration.ofMinutes(1))
+                timeoutMethod.isAccessible = true
+                timeoutMethod.invoke(btAdapter, Duration.ofMinutes(1))
             }
         }
     }
