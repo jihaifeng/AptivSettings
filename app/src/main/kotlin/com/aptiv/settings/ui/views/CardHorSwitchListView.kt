@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -26,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.aptiv.settings.R
@@ -40,6 +40,8 @@ import com.aptiv.settings.ui.theme.Color_Switch_Selected
 @Composable
 fun CardHorSwitchListView(
     title: String? = null,
+    itemWidth: Dp = 214.dp,
+    itemHeight: Dp = 56.dp,
     switchInfos: List<SwitchInfo>,
     selectedIndex: Int = 0,
     onSelectChanged: (Int) -> Unit = {}
@@ -47,8 +49,8 @@ fun CardHorSwitchListView(
     if (title != null) {
         DescText(description = title)
     }
-    val width = 274.dp * switchInfos.size + 10.dp
-    val height = 72.dp
+    val width = itemWidth * switchInfos.size + 10.dp
+    val height = itemHeight + 16.dp
     val selectedState = remember { mutableIntStateOf(selectedIndex) }
     Box(
         modifier = Modifier
@@ -62,7 +64,14 @@ fun CardHorSwitchListView(
             horizontalArrangement = Arrangement.Center
         ) {
             items(switchInfos.size) {
-                SwitchItem(it, selectedState, switchInfos, onSelectChanged)
+                SwitchItem(
+                    curIndex = it,
+                    selectedIndex = selectedState,
+                    width = itemWidth,
+                    height = itemHeight,
+                    switchInfos = switchInfos,
+                    onSelectChanged = onSelectChanged
+                )
             }
         }
     }
@@ -70,12 +79,14 @@ fun CardHorSwitchListView(
 
 @Composable
 fun CardHorSwitchListView(
+    itemWidth: Dp = 214.dp,
+    itemHeight: Dp = 56.dp,
     switchInfos: List<SwitchInfo>,
     selectedIndex: Int = 0,
     onSelectChanged: (Int) -> Unit = {}
 ) {
-    val width = 274.dp * switchInfos.size + 10.dp
-    val height = 72.dp
+    val width = itemWidth * switchInfos.size + 10.dp
+    val height = itemHeight + 16.dp
     val selectedState = remember { mutableIntStateOf(selectedIndex) }
     Box(
         modifier = Modifier
@@ -89,7 +100,14 @@ fun CardHorSwitchListView(
             horizontalArrangement = Arrangement.Center
         ) {
             items(switchInfos.size) {
-                SwitchItem(it, selectedState, switchInfos, onSelectChanged)
+                SwitchItem(
+                    curIndex = it,
+                    selectedIndex = selectedState,
+                    width = itemWidth,
+                    height = itemHeight,
+                    switchInfos = switchInfos,
+                    onSelectChanged = onSelectChanged
+                )
             }
         }
     }
@@ -99,21 +117,22 @@ fun CardHorSwitchListView(
 fun SwitchItem(
     curIndex: Int,
     selectedIndex: MutableIntState,
+    width: Dp = 214.dp,
+    height: Dp = 56.dp,
     switchInfos: List<SwitchInfo>,
     onSelectChanged: (Int) -> Unit
 ) {
     val selected = curIndex == selectedIndex.intValue
     Box(
         modifier = Modifier
-            .height(56.dp)
-            .width(274.dp),
+            .width(width)
+            .height(height),
         contentAlignment = Alignment.Center
     ) {
         Spacer(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .clip(RoundedCornerShape(5.dp))
+                .fillMaxSize()
+                .clip(RoundedCornerShape(10.dp))
                 .background(
                     color =
                     if (selected) Color_Switch_Selected

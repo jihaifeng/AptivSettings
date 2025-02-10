@@ -14,7 +14,7 @@ import com.aptiv.settings.ui.theme.Color_Title_Desc
 fun DescText(
     modifier: Modifier = Modifier
         .wrapContentSize()
-        .padding(top = 20.dp, bottom = 24.dp),
+        .padding(top = 44.dp, bottom = 20.dp),
     textStyle: TextStyle = TextStyle(
         fontSize = 28.sp,
         color = Color_Title_Desc

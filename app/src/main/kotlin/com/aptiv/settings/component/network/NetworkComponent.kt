@@ -100,7 +100,17 @@ private fun SavedWifiDeviceList() {
 // 可用的wifi列表
 @Composable
 private fun AvailableWifiDeviceList() {
-    DescText(description = stringResource(R.string.list_wifi_available_device_desc))
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        DescText(description = stringResource(R.string.list_wifi_available_device_desc))
+        ImageBtn(
+            width = 44.dp,
+            height = 44.dp,
+            marginValues = PaddingValues(top = 44.dp, bottom = 20.dp),
+            iconResId = R.drawable.ic_devices_search
+        ) {
+            logInfo(TAG, "NetworkComponent search wifi devices")
+        }
+    }
     CardVerListView(WIFI_NEW_NETWORKS_INFO.size) {
         WifiDeviceItem(WIFI_NEW_NETWORKS_INFO, it)
     }

@@ -1,5 +1,6 @@
 package com.aptiv.settings.ui.views
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -8,8 +9,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,9 +34,10 @@ fun CardToggleView(
     margins: PaddingValues = PaddingValues(bottom = 24.dp),
     paddings: PaddingValues = PaddingValues(start = 24.dp, end = 24.dp),
     description: String,
+    subDescription: String = "",
+    hint: String = "",
     enableToggle: Boolean = true,
     descColor: Color = Color_Toggle_Desc,
-    subDescription: String = "",
     subDescColor: Color = Color_Toggle_Sub_Desc,
     toggled: Boolean = false,
     onToggleChanged: (Boolean) -> Unit
@@ -62,14 +62,27 @@ fun CardToggleView(
                 onToggleChanged(it)
             })
 
-        val descColorResult = if (enableToggle) descColor else Color_Toggle_Desc_Disable
-        Text(
-            modifier = Modifier
-                .wrapContentSize(Alignment.CenterStart)
-                .weight(1f),
-            text = description,
-            style = TextStyle(color = descColorResult, fontSize = 28.sp),
-        )
+        Column(modifier = Modifier
+            .weight(1f)
+            .align(Alignment.CenterVertically)) {
+            val descColorResult = if (enableToggle) descColor else Color_Toggle_Desc_Disable
+            Text(
+                modifier = Modifier
+                    .wrapContentSize(Alignment.CenterStart),
+                text = description,
+                style = TextStyle(color = descColorResult, fontSize = 28.sp),
+            )
+
+            if (hint.isNotEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .wrapContentSize(Alignment.CenterStart),
+                    text = hint,
+                    style = TextStyle(color = Color_Toggle_Sub_Desc, fontSize = 23.sp),
+                )
+            }
+        }
 
         if (subDescription.isNotEmpty()) {
             Text(

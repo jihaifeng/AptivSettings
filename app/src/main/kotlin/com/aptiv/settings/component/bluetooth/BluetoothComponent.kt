@@ -105,10 +105,17 @@ private fun BondedDeviceList(viewModel: BluetoothViewModel) {
 
 @Composable
 private fun NearbyDeviceList(viewModel: BluetoothViewModel) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        DescText(description = stringResource(R.string.list_nearby_devices_title))
-        ImageBtn(width = 44.dp, height = 44.dp, iconResId = R.drawable.ic_devices_search) {
-            viewModel.startScanNearbyDevices()
+    if (viewModel.btToggleState.value == BTToggleState.STATE_ON) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            DescText(description = stringResource(R.string.list_nearby_devices_title))
+            ImageBtn(
+                width = 44.dp,
+                height = 44.dp,
+                marginValues = PaddingValues(top = 44.dp, bottom = 20.dp),
+                iconResId = R.drawable.ic_devices_search
+            ) {
+                viewModel.startScanNearbyDevices()
+            }
         }
     }
 

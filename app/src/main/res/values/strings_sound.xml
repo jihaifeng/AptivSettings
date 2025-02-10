@@ -1,24 +1,73 @@
 <resources>
-    <string name="slider_media_volume_desc">Media volume</string>
-    <string name="slider_nav_volume_desc">Navigation volume</string>
-    <string name="slider_voice_volume_desc">Voice Volume</string>
-    <string name="slider_call_volume_desc">Call volume</string>
+<!--    <string name="slider_media_volume_desc">Media volume</string>-->
+<!--    <string name="slider_nav_volume_desc">Navigation volume</string>-->
+<!--    <string name="slider_voice_volume_desc">Voice Volume</string>-->
+<!--    <string name="slider_call_volume_desc">Call volume</string>-->
 
-    <string name="switch_volume_change_title">Volume changes with vehicle speed</string>
-    <string name="switch_volume_change_close">Close</string>
-    <string name="switch_volume_change_low">Low</string>
-    <string name="switch_volume_change_middle">Middle</string>
-    <string name="switch_volume_change_high">High</string>
+<!--    <string name="switch_volume_change_title">Volume changes with vehicle speed</string>-->
+<!--    <string name="switch_volume_change_close">Close</string>-->
+<!--    <string name="switch_volume_change_low">Low</string>-->
+<!--    <string name="switch_volume_change_middle">Middle</string>-->
+<!--    <string name="switch_volume_change_high">High</string>-->
 
 
-    <string name="toggle_system_beep_desc">System beep</string>
-    <string name="toggle_startup_sound_desc">Start-up sound</string>
-    <string name="toggle_speed_chimes_desc">Low Speed Warning Chimes</string>
+<!--    <string name="toggle_system_beep_desc">System beep</string>-->
+<!--    <string name="toggle_startup_sound_desc">Start-up sound</string>-->
+<!--    <string name="toggle_speed_chimes_desc">Low Speed Warning Chimes</string>-->
 
-    <string name="switch_enhancement_sound_title">Information Enhancement Sound</string>
-    <string name="switch_enhancement_sound_close">Close</string>
-    <string name="switch_enhancement_sound_low">Low</string>
-    <string name="switch_enhancement_sound_middle">Middle</string>
-    <string name="switch_enhancement_sound_high">High</string>
+<!--    <string name="switch_enhancement_sound_title">Information Enhancement Sound</string>-->
+<!--    <string name="switch_enhancement_sound_close">Close</string>-->
+<!--    <string name="switch_enhancement_sound_low">Low</string>-->
+<!--    <string name="switch_enhancement_sound_middle">Middle</string>-->
+<!--    <string name="switch_enhancement_sound_high">High</string>-->
+
+    <string name="switch_sound_field_title">声场优化</string>
+    <string name="switch_sound_field_all_car">全车</string>
+    <string name="switch_sound_field_main">主驾</string>
+    <string name="switch_sound_field_front">前车</string>
+    <string name="switch_sound_field_back">后车</string>
+
+    <string name="switch_sound_effect_title">音质还原</string>
+    <string name="switch_sound_effect_standard">标准</string>
+    <string name="switch_sound_effect_bar">酒吧</string>
+    <string name="switch_sound_effect_theater">剧场</string>
+    <string name="switch_sound_effect_cinema">影院</string>
+
+    <string name="toggle_sound_effect_title">音质还原</string>
+    <string name="toggle_sound_effect_sub_title">将低品质音源还原为高品质音源</string>
+
+    <string name="item_equalizer_desc">均衡器</string>
+
+    <string name="switch_speed_chime_title">行人低速提示音</string>
+    <string name="switch_speed_chime_close">关闭</string>
+    <string name="switch_speed_chime_first">音效一</string>
+    <string name="switch_speed_chime_second">音效二</string>
+    <string name="slider_speed_chime_experience_title">效果体验</string>
+
+    <string name="toggle_touch_sound_title">触屏音效</string>
+    <string name="toggle_touch_sound_sub_title">用户进行点击操作时会发出提示音</string>
+
+    <string name="switch_speed_sound_title">音量随速</string>
+    <string name="switch_speed_sound_close">关闭</string>
+    <string name="switch_speed_sound_low">低</string>
+    <string name="switch_speed_sound_middle">中</string>
+    <string name="switch_speed_sound_high">高</string>
+
+    <string name="toggle_nav_suppress_media_title">导航抑制媒体音</string>
+    <string name="toggle_nav_suppress_media_sub_title">开启后，导航声音压低媒体音量</string>
+
+    <string name="toggle_reverse_suppress_media_title">倒车抑制媒体音</string>
+    <string name="toggle_reverse_suppress_media_sub_title">R档时媒体音量自动降低</string>
+
+    <string name="switch_alarm_title">报警提示音</string>
+    <string name="switch_alarm_low">低</string>
+    <string name="switch_alarm_middle">中</string>
+    <string name="switch_alarm_high">高</string>
+
+    <string name="slider_media_volume_title">媒体音量</string>
+    <string name="slider_voice_broadcast_title">语音播报</string>
+    <string name="slider_nav_broadcast_title">导航播报</string>
+    <string name="slider_ring_volume_title">铃声音量</string>
+    <string name="slider_call_volume_title">通话音量</string>
 
 </resources>

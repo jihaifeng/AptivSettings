@@ -8,6 +8,6 @@
     <dimen name="tab_list_width">430dp</dimen>
     <dimen name="tab_item_height">120dp</dimen>
     <dimen name="tab_item_padding">40dp</dimen>
-    <dimen name="tab_name">26dp</dimen>
+    <dimen name="tab_name">26sp</dimen>
     <dimen name="tab_icon">72dp</dimen>
 </resources>

@@ -2,81 +2,49 @@ package com.aptiv.settings.model
 
 import com.aptiv.settings.R
 
-val LIGHT_SWITCH_INFO = listOf(
-    SwitchInfo(
-        iconResNor = R.drawable.ic_switch_light_off_normal,
-        iconResSel = R.drawable.ic_switch_light_off_select,
-        switchType = SwitchType.ICON
-    ),
-    SwitchInfo(
-        iconResNor = R.drawable.ic_switch_light_head_normal,
-        iconResSel = R.drawable.ic_switch_light_head_select,
-        switchType = SwitchType.ICON
-    ),
-    SwitchInfo(
-        iconResNor = R.drawable.ic_switch_light_fog_normal,
-        iconResSel = R.drawable.ic_switch_light_fog_select,
-        switchType = SwitchType.ICON
-    ),
-    SwitchInfo(
-        iconResNor = R.drawable.ic_switch_light_auto_normal,
-        iconResSel = R.drawable.ic_switch_light_auto_select,
-        switchType = SwitchType.ICON
-    ),
+
+// 声场优化
+val SOUND_FIELD_SWITCH_INFO = listOf(
+    SwitchInfo(textRes = R.string.switch_sound_field_all_car), // 全车
+    SwitchInfo(textRes = R.string.switch_sound_field_main), // 主驾
+    SwitchInfo(textRes = R.string.switch_sound_field_front), // 前排
+    SwitchInfo(textRes = R.string.switch_sound_field_back), // 后排
 )
 
-val ENERGY_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_energy_low),
-    SwitchInfo(textRes = R.string.switch_energy_middle),
-    SwitchInfo(textRes = R.string.switch_energy_high)
+// 音质还原
+val SOUND_EFFECT_SWITCH_INFO = listOf(
+    SwitchInfo(textRes = R.string.switch_sound_effect_standard), // 标准
+    SwitchInfo(textRes = R.string.switch_sound_effect_bar), // 酒吧
+    SwitchInfo(textRes = R.string.switch_sound_effect_theater), // 剧场
+    SwitchInfo(textRes = R.string.switch_sound_effect_cinema), // 影院
 )
 
-val MIRROR_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_mirror_off),
-    SwitchInfo(textRes = R.string.switch_mirror_left),
-    SwitchInfo(textRes = R.string.switch_mirror_right),
-    SwitchInfo(textRes = R.string.switch_mirror_all)
+// 音量随速
+val SPEED_SOUND_SWITCH_INFO = listOf(
+    SwitchInfo(textRes = R.string.switch_speed_sound_close), // 关闭
+    SwitchInfo(textRes = R.string.switch_speed_sound_low), // 低
+    SwitchInfo(textRes = R.string.switch_speed_sound_middle), // 中
+    SwitchInfo(textRes = R.string.switch_speed_sound_high), // 高
 )
 
-val HEADLIGHT_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_headlight_low),
-    SwitchInfo(textRes = R.string.switch_headlight_middle),
-    SwitchInfo(textRes = R.string.switch_headlight_high)
+// 报警提示音
+val ALARM_SWITCH_INFO = listOf(
+    SwitchInfo(textRes = R.string.switch_alarm_low), // 低
+    SwitchInfo(textRes = R.string.switch_alarm_middle), // 中
+    SwitchInfo(textRes = R.string.switch_alarm_high), // 高
 )
 
-val DOOR_LOCK_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_door_lock_close),
-    SwitchInfo(textRes = R.string.switch_door_lock_driver),
-    SwitchInfo(textRes = R.string.switch_door_lock_all),
+// 报警提示音
+val SPEED_CHIME_SWITCH_INFO = listOf(
+    SwitchInfo(textRes = R.string.switch_speed_chime_close), // 关闭
+    SwitchInfo(textRes = R.string.switch_speed_chime_first), // 音效一
+    SwitchInfo(textRes = R.string.switch_speed_chime_second), // 音效二
 )
 
-val DOOR_ELECTRIC_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_door_electric_open_half),
-    SwitchInfo(textRes = R.string.switch_door_electric_driver),
-)
-
-val TIME_FORMAT_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_time_format_24),
-    SwitchInfo(textRes = R.string.switch_time_format_12),
-)
-
-val VOLUME_CHANGE_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_volume_change_close),
-    SwitchInfo(textRes = R.string.switch_volume_change_low),
-    SwitchInfo(textRes = R.string.switch_volume_change_middle),
-    SwitchInfo(textRes = R.string.switch_volume_change_high),
-)
-
-val ENHANCEMENT_SOUND_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_enhancement_sound_close),
-    SwitchInfo(textRes = R.string.switch_enhancement_sound_low),
-    SwitchInfo(textRes = R.string.switch_enhancement_sound_middle),
-    SwitchInfo(textRes = R.string.switch_enhancement_sound_high),
-)
-
+// 热点频段设置
 val HOTSPOT_SWITCH_INFO = listOf(
-    SwitchInfo(textRes = R.string.switch_hotspot_2g),
-    SwitchInfo(textRes = R.string.switch_hotspot_5g),
+    SwitchInfo(textRes = R.string.switch_hotspot_2g), // 2.4G
+    SwitchInfo(textRes = R.string.switch_hotspot_5g), // 5G
 )
 
 data class SwitchInfo(
