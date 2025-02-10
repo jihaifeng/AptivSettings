@@ -179,7 +179,7 @@ private fun DeviceItem(
             }
         }
         ImageBtn(
-            iconResId = R.drawable.ic_list_wifi_device_info,
+            iconResId = R.drawable.ic_device_info,
             marginValues = PaddingValues(end = 20.dp),
         ) {
             logInfo(TAG, "delete Image onClick: $index")

@@ -122,7 +122,7 @@ class BluetoothViewModel(ctx: Context) : BaseViewModel(ctx) {
             if (it) BTToggleState.STATE_ON else BTToggleState.STATE_OFF
         }
         context.registerReceiver(btReceiver, receiverFilter)
-        btName.value = btAdapter.name
+        btName.value = btAdapter.name.orEmpty()
         logInfo(
             getLogTag(),
             "BluetoothViewModel init, btToggleState = ${btToggleState.value} btName = $btName"

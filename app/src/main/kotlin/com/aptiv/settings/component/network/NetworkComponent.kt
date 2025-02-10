@@ -233,7 +233,7 @@ private fun WifiDeviceItem(wifiDeviceInfos: List<WifiDeviceInfo>, index: Int) {
             logInfo(TAG, "wifi device signal clicked")
         }
         ImageBtn(
-            iconResId = R.drawable.ic_network_device_info,
+            iconResId = R.drawable.ic_device_info,
         ) {
             logInfo(TAG, "wifi device info clicked")
         }
@@ -273,7 +273,7 @@ fun HotspotItem(hotspotInfos: List<HotspotInfo>, index: Int, isBlackList: Boolea
             logInfo(TAG, "wifi device signal clicked")
         }
         ImageBtn(
-            iconResId = R.drawable.ic_network_device_info,
+            iconResId = R.drawable.ic_device_info,
         ) {
             logInfo(TAG, "wifi device info clicked")
         }
