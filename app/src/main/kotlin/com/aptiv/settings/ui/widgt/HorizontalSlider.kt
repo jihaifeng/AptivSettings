@@ -1,9 +1,8 @@
 package com.aptiv.settings.ui.widgt
 
-import android.annotation.SuppressLint
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
@@ -17,155 +16,207 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.aptiv.settings.common.logInfo
-import kotlin.math.abs
+import kotlinx.coroutines.launch
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun HorizontalSlider(
-    progress: Float, // 当前进度
-    progressRange: ClosedFloatingPointRange<Float> = 0f..1f, // 进度范围
-    draggable: Boolean = true, // 是否可拖拽
-    thumbSize: Dp = 36.dp, // 滑块大小
-    thumbOutSideColor: Color = Color(0xFFFFFFFF), // 滑块边缘颜色
-    thumbInnerColor: Color = Color(0xFFFF6940), // 滑块内部颜色
-    trackerWidth: Dp = 814.dp, // 轨道宽度
-    trackerHeight: Dp = 12.dp, // 轨道高度
-    inactiveTrackerColor: Color = Color(0x1A000000), // 轨道未激活颜色
-    activeTrackerColor: Color = Color(0xFFFF6940), // 轨道激活颜色
+    progress: Float,
+    progressRange: ClosedFloatingPointRange<Float> = 0f..1f,
+    draggable: Boolean = true,
+    thumbSize: Dp = 36.dp,
+    thumbOutSideColor: Color = Color.White,
+    thumbInnerColor: Color = Color(0xFFFF6940),
+    trackerWidth: Dp = 814.dp,
+    trackerHeight: Dp = 12.dp,
+    inactiveTrackerColor: Color = Color(0x1A000000),
+    activeTrackerColor: Color = Color(0xFFFF6940),
     trackerClip: Shape = RoundedCornerShape(trackerHeight),
-    onProgressUpdate: (Float) -> Unit // 进度更新回调
+    onProgressUpdate: (Float) -> Unit
 ) {
-    val sliderWith = trackerWidth
-    val sliderHeight = thumbSize.let {
-        if (it > trackerHeight) it else trackerHeight
-    }
-    val sliderClip = trackerClip
+    val maxThumbScale = 1.2f
+    val defaultThumbScale = 1f
+    val thumbScale = remember { Animatable(defaultThumbScale) }
+    val coroutineScope = rememberCoroutineScope()
+    val isDragging = remember { mutableStateOf(false) }
+
     BoxWithConstraints(
         modifier = Modifier
-            .width(sliderWith)
-            .height(sliderHeight)
-            .clip(sliderClip)
+            .width(trackerWidth)
+            .height(maxOf(thumbSize * maxThumbScale, trackerHeight))
+            .clip(trackerClip)
     ) {
-        val trackerWidthPx = with(LocalDensity.current) {
-            trackerWidth.toPx()
+        val trackerWidthPx = with(LocalDensity.current) { trackerWidth.toPx() }
+        val thumbWidthPx = with(LocalDensity.current) { thumbSize.toPx() }
+
+        val coercedProgress = progress.coerceIn(progressRange.start, progressRange.endInclusive)
+
+        val activeTrackerOffsetX = remember(coercedProgress) {
+            trackerWidthPx * ((coercedProgress - progressRange.start) / (progressRange.endInclusive - progressRange.start))
         }
-        val thumbWidthPx = with(LocalDensity.current) {
-            thumbSize.toPx()
-        }
 
-
-        // 拖拽后的进度
-        var dragProgress = mutableFloatStateOf(0f)
-
-        // 当前进度，需要在valueRange范围内
-        var activeProgress =
-            mutableFloatStateOf(
-                progress.coerceIn(
-                    progressRange.start,
-                    progressRange.endInclusive
-                )
-            )
-
-        // 已激活的轨道偏移量
-        var activeTrackerOffsetX =
-            mutableFloatStateOf(trackerWidthPx * (activeProgress.floatValue * 1f) / progressRange.endInclusive)
-        // 拖拽事件
-        val draggableState = rememberDraggableState { it ->
+        val draggableState = rememberDraggableState { delta ->
             if (!draggable) return@rememberDraggableState
 
-            val newValue = (activeTrackerOffsetX.floatValue + it).coerceIn(0f, trackerWidthPx)
-            newValue.let {
-                if (newValue == activeTrackerOffsetX.floatValue) return@let
-                activeTrackerOffsetX.floatValue = newValue
-                val tempProgress =
-                    ((abs(activeTrackerOffsetX.floatValue) / trackerWidthPx) * progressRange.endInclusive)
-                dragProgress.floatValue = tempProgress
-                onProgressUpdate.invoke(dragProgress.floatValue)
+            isDragging.value = true
+
+            val newOffset = activeTrackerOffsetX + delta
+            val newProgress = (newOffset / trackerWidthPx).coerceIn(
+                0f,
+                1f
+            ) * (progressRange.endInclusive - progressRange.start) + progressRange.start
+            onProgressUpdate(newProgress)
+
+            coroutineScope.launch {
+                thumbScale.animateTo(
+                    maxThumbScale,
+                    animationSpec = tween(durationMillis = 200)
+                )
             }
         }
-        // 底层进度条
+
+        LaunchedEffect(isDragging.value) {
+            if (!isDragging.value) {
+                thumbScale.animateTo(
+                    defaultThumbScale,
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+            }
+        }
+
         Spacer(
             modifier = Modifier
-                .then(Modifier.pointerInput(this) {
-                    detectTapGestures(
-                        // 按压选中,如果不需要跟手，就用onTap事件
-//                        onTap = {
-//                            if (!draggable) return@detectTapGestures
-//
-//                            activeTrackerOffsetX.floatValue = it.x.coerceIn(0f, trackerWidthPx)
-//                            val tempProgress =
-//                                ((abs(activeTrackerOffsetX.floatValue) / trackerWidthPx) * progressRange.endInclusive)
-//                            //            dragProgress.floatValue = (tempProgress * 100f).roundToInt() / 100f
-//                            dragProgress.floatValue = tempProgress
-//                            onProgressUpdate.invoke(dragProgress.floatValue)
-//                        },
-                        // 滑动跟手
-                        onPress = {
-                            if (!draggable) return@detectTapGestures
+                .pointerInput(this) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.firstOrNull() ?: continue
 
-                            activeTrackerOffsetX.floatValue = it.x.coerceIn(0f, trackerWidthPx)
-                            val tempProgress =
-                                ((abs(activeTrackerOffsetX.floatValue) / trackerWidthPx) * progressRange.endInclusive)
-                            //            dragProgress.floatValue = (tempProgress * 100f).roundToInt() / 100f
-                            dragProgress.floatValue = tempProgress
-                            onProgressUpdate.invoke(dragProgress.floatValue)
+                            when (event.type) {
+                                PointerEventType.Press -> {
+                                    coroutineScope.launch {
+                                        thumbScale.animateTo(
+                                            maxThumbScale,
+                                            animationSpec = tween(durationMillis = 200)
+                                        )
+                                    }
+                                    val newProgress = (change.position.x / trackerWidthPx).coerceIn(
+                                        0f,
+                                        1f
+                                    ) * (progressRange.endInclusive - progressRange.start) + progressRange.start
+                                    onProgressUpdate(newProgress)
+                                }
+
+                                PointerEventType.Release -> {
+                                    coroutineScope.launch {
+                                        thumbScale.animateTo(
+                                            defaultThumbScale,
+                                            animationSpec = spring(
+                                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                                stiffness = Spring.StiffnessLow
+                                            )
+                                        )
+                                    }
+
+                                    val newProgress = (change.position.x / trackerWidthPx).coerceIn(
+                                        0f,
+                                        1f
+                                    ) * (progressRange.endInclusive - progressRange.start) + progressRange.start
+                                    onProgressUpdate(newProgress)
+                                }
+
+                                else -> {
+                                    // do nothing
+                                }
+                            }
                         }
-                    )
-                })
+                    }
+                }
                 .height(trackerHeight)
                 .width(trackerWidth)
                 .align(Alignment.CenterStart)
-                .background(inactiveTrackerColor, shape = sliderClip)
+                .background(inactiveTrackerColor, shape = trackerClip)
                 .draggable(
                     orientation = Orientation.Horizontal,
                     state = draggableState,
+                    onDragStarted = {
+                        isDragging.value = true
+                        coroutineScope.launch {
+                            thumbScale.animateTo(
+                                maxThumbScale,
+                                animationSpec = tween(durationMillis = 200)
+                            )
+                        }
+                    },
+                    onDragStopped = {
+                        isDragging.value = false
+                        coroutineScope.launch {
+                            thumbScale.animateTo(
+                                defaultThumbScale,
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                                    stiffness = Spring.StiffnessLow
+                                )
+                            )
+                        }
+                    }
                 )
         )
 
-        // 上层进度条
         Spacer(
             modifier = Modifier
                 .height(trackerHeight)
-                .width(with(LocalDensity.current) { activeTrackerOffsetX.floatValue.toDp() })
+                .width(with(LocalDensity.current) { activeTrackerOffsetX.toDp() })
                 .align(Alignment.CenterStart)
-                .background(activeTrackerColor, shape = sliderClip)
+                .background(activeTrackerColor, shape = trackerClip)
         )
 
         if (thumbSize > 0.dp) {
-            // 滑块偏移量单独计算，确保滑块不会超出轨道
             val thumbOffsetX = with(LocalDensity.current) {
-                activeTrackerOffsetX.floatValue.toDp() - thumbWidthPx.toDp() / 2
-            }.coerceIn(0.dp, trackerWidth - thumbSize)
-            logInfo(
-                "slider",
-                "thumbOffsetX = $thumbOffsetX, activeTrackerOffsetX = ${activeTrackerOffsetX.floatValue}"
-            )
-            // 圆形滑块
+                (activeTrackerOffsetX - thumbWidthPx / 2).toDp()
+                    .coerceIn(0.dp, trackerWidth - thumbSize)
+            }
+
+            // 计算缩放后的尺寸
+            val scaledThumbSize = thumbSize * thumbScale.value
+
+            // 创建更大的外部 Box
             Box(
                 modifier = Modifier
-                    .offset(x = with(LocalDensity.current) { thumbOffsetX })
-                    .size(thumbSize) // 滑块大小
-                    .background(thumbOutSideColor, shape = CircleShape) // 外边框颜色
-                    .padding(3.dp) // 内边距，用于创建内圆
-                    .align(Alignment.CenterStart)
+                    .offset(x = thumbOffsetX)
+                    .size(scaledThumbSize) // 外部 Box 的尺寸
+                    .align(Alignment.CenterStart),
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(thumbInnerColor, shape = CircleShape) // 内圆颜色
-                )
+                        .size(thumbSize) // 内部 Box 保持原始尺寸
+                        .scale(thumbScale.value)
+                        .background(thumbOutSideColor, shape = CircleShape)
+                        .padding(3.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(thumbInnerColor, shape = CircleShape)
+                    )
+                }
             }
         }
     }

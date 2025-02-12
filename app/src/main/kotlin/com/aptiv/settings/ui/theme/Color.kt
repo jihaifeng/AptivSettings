@@ -18,8 +18,8 @@ val Color_TabName_Selected = Color(0xFF000000)
 // 切换按钮颜色
 val Color_Switch_Normal = Color(0x00000000)
 val Color_Switch_Selected = Color(0xFFFF6940)
-val Color_Switch_Content_Normal = Color(0xCC000000)
-val Color_Switch_Content_Selected = Color(0xFFFFFFFF)
+val Color_Switch_Content_Normal = Color(0x99000000)
+val Color_Switch_Content_Selected = Color(0xFF000000)
 
 // 开关按钮颜色
 val Color_Toggle_Desc = Color(0xCC000000)
