@@ -38,6 +38,8 @@ import com.aptiv.settings.ui.theme.Color_Text_Black_80
 import com.aptiv.settings.ui.views.CardHorSwitchListView
 import com.aptiv.settings.ui.views.CardToggleView
 import com.aptiv.settings.ui.views.DescText
+import com.aptiv.settings.ui.views.EqualizerPopup
+import com.aptiv.settings.ui.views.EqualizerPopupCallback
 import com.aptiv.settings.ui.views.HorizontalSliderWithDesc
 import com.aptiv.settings.ui.views.SwitchItem
 
@@ -45,120 +47,141 @@ private const val TAG = "SoundComponent"
 
 @Composable
 fun SoundComponent(viewModel: SoundViewModel) {
-    // 声场优化
-    CardHorSwitchListView(
-        title = stringResource(R.string.switch_sound_field_title),
-        switchInfos = SOUND_FIELD_SWITCH_INFO,
-        selectedIndex = 0,
-    ) {
-        logInfo(TAG, "switch sound field to $it")
-    }
+    if (viewModel.equalizerPopupState.value) {
+        EqualizerPopup(
+            viewModel,
+            object : EqualizerPopupCallback {
+                override fun onDismiss() {
+                    viewModel.equalizerPopupState.value = false
+                }
 
-    // 音质还原 选择
-    CardHorSwitchListView(
-        title = stringResource(R.string.switch_sound_effect_title),
-        switchInfos = SOUND_EFFECT_SWITCH_INFO,
-        selectedIndex = 0,
-    ) {
-        logInfo(TAG, "switch sound effect to $it")
+                override fun onRestore() {
+                    viewModel.equalizerState_40Hz.floatValue = 0f
+                    viewModel.equalizerState_80Hz.floatValue = 0f
+                    viewModel.equalizerState_500Hz.floatValue = 0f
+                    viewModel.equalizerState_1kHz.floatValue = 0f
+                    viewModel.equalizerState_5kHz.floatValue = 0f
+                    viewModel.equalizerState_16kHz.floatValue = 0f
+                }
+            })
     }
+    Column(modifier = Modifier.fillMaxSize()) {
+        // 声场优化
+        CardHorSwitchListView(
+            title = stringResource(R.string.switch_sound_field_title),
+            switchInfos = SOUND_FIELD_SWITCH_INFO,
+            selectedIndex = 0,
+        ) {
+            logInfo(TAG, "switch sound field to $it")
+        }
 
-    // 音质还原 开关
-    CardToggleView(
-        description = stringResource(id = R.string.toggle_sound_effect_title),
-        hint = stringResource(id = R.string.toggle_sound_effect_sub_title),
-        margins = PaddingValues(top = 44.dp, bottom = 44.dp),
-        subDescColor = Color_Hint,
-        toggled = viewModel.soundEffectToggleState.value
-    ) {
-        logInfo(TAG, "toggle sound effect to $it")
-        viewModel.soundEffectToggleState.value = it
-    }
+        // 音质还原 选择
+        CardHorSwitchListView(
+            title = stringResource(R.string.switch_sound_effect_title),
+            switchInfos = SOUND_EFFECT_SWITCH_INFO,
+            selectedIndex = 0,
+        ) {
+            logInfo(TAG, "switch sound effect to $it")
+        }
 
-    // 均衡器
-    Row(
-        modifier = Modifier
-            .width(862.dp)
-            .height(104.dp)
-            .draw9Patch(LocalContext.current, R.drawable.ic_card_bg)
-            .clickable {
-                logInfo(TAG, "click equalizer")
-            },
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            stringResource(R.string.item_equalizer_desc),
+        // 音质还原 开关
+        CardToggleView(
+            description = stringResource(id = R.string.toggle_sound_effect_title),
+            hint = stringResource(id = R.string.toggle_sound_effect_sub_title),
+            margins = PaddingValues(top = 44.dp, bottom = 44.dp),
+            subDescColor = Color_Hint,
+            toggled = viewModel.soundEffectToggleState.value
+        ) {
+            logInfo(TAG, "toggle sound effect to $it")
+            viewModel.soundEffectToggleState.value = it
+        }
+
+        // 均衡器
+        Row(
             modifier = Modifier
-                .padding(start = 24.dp),
-            style = TextStyle.Default.copy(fontSize = 28.sp, color = Color_Text_Black_80)
-        )
+                .width(862.dp)
+                .height(104.dp)
+                .draw9Patch(LocalContext.current, R.drawable.ic_card_bg)
+                .clickable {
+                    logInfo(TAG, "click equalizer")
+                    viewModel.equalizerPopupState.value = true
+                },
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                stringResource(R.string.item_equalizer_desc),
+                modifier = Modifier
+                    .padding(start = 24.dp),
+                style = TextStyle.Default.copy(fontSize = 28.sp, color = Color_Text_Black_80)
+            )
 
-        Icon(
-            modifier = Modifier.padding(end = 24.dp),
-            painter = painterResource(id = R.drawable.ic_arrow_right),
-            contentDescription = null
-        )
+            Icon(
+                modifier = Modifier.padding(end = 24.dp),
+                painter = painterResource(id = R.drawable.ic_arrow_right),
+                contentDescription = null
+            )
+        }
+
+        SpeedChimeView(viewModel)
+
+        // 触屏音效
+        CardToggleView(
+            description = stringResource(id = R.string.toggle_touch_sound_title),
+            hint = stringResource(id = R.string.toggle_touch_sound_sub_title),
+            margins = PaddingValues(top = 44.dp, bottom = 44.dp),
+            subDescColor = Color_Hint,
+            toggled = viewModel.touchSoundToggleState.value
+        ) {
+            logInfo(TAG, "toggle touch sound to $it")
+            viewModel.touchSoundToggleState.value = it
+        }
+
+        // 音量随速 选择
+        CardHorSwitchListView(
+            title = stringResource(R.string.switch_speed_sound_title),
+            switchInfos = SPEED_SOUND_SWITCH_INFO,
+            selectedIndex = 0,
+        ) {
+            logInfo(TAG, "switch speed sound to $it")
+        }
+
+        // 导航抑制媒体音
+        CardToggleView(
+            description = stringResource(id = R.string.toggle_nav_suppress_media_title),
+            hint = stringResource(id = R.string.toggle_nav_suppress_media_sub_title),
+            margins = PaddingValues(top = 44.dp, bottom = 44.dp),
+            subDescColor = Color_Hint,
+            toggled = viewModel.navSuppressMediaToggleState.value
+        ) {
+            logInfo(TAG, "toggle nav suppress media to $it")
+            viewModel.navSuppressMediaToggleState.value = it
+        }
+
+        // 倒车抑制媒体音
+        CardToggleView(
+            description = stringResource(id = R.string.toggle_reverse_suppress_media_title),
+            hint = stringResource(id = R.string.toggle_reverse_suppress_media_sub_title),
+            margins = PaddingValues(bottom = 44.dp),
+            subDescColor = Color_Hint,
+            toggled = viewModel.reverseSuppressMediaToggleState.value
+        ) {
+            logInfo(TAG, "toggle reverse suppress media to $it")
+            viewModel.reverseSuppressMediaToggleState.value = it
+        }
+
+        // 报警提示音 选择
+        CardHorSwitchListView(
+            title = stringResource(R.string.switch_alarm_title),
+            switchInfos = ALARM_SWITCH_INFO,
+            selectedIndex = 0,
+        ) {
+            logInfo(TAG, "switch alarm to $it")
+        }
+
+        // 音量
+        VolumeView(viewModel)
     }
-
-    SpeedChimeView(viewModel)
-
-    // 触屏音效
-    CardToggleView(
-        description = stringResource(id = R.string.toggle_touch_sound_title),
-        hint = stringResource(id = R.string.toggle_touch_sound_sub_title),
-        margins = PaddingValues(top = 44.dp, bottom = 44.dp),
-        subDescColor = Color_Hint,
-        toggled = viewModel.touchSoundToggleState.value
-    ) {
-        logInfo(TAG, "toggle touch sound to $it")
-        viewModel.touchSoundToggleState.value = it
-    }
-
-    // 音量随速 选择
-    CardHorSwitchListView(
-        title = stringResource(R.string.switch_speed_sound_title),
-        switchInfos = SPEED_SOUND_SWITCH_INFO,
-        selectedIndex = 0,
-    ) {
-        logInfo(TAG, "switch speed sound to $it")
-    }
-
-    // 导航抑制媒体音
-    CardToggleView(
-        description = stringResource(id = R.string.toggle_nav_suppress_media_title),
-        hint = stringResource(id = R.string.toggle_nav_suppress_media_sub_title),
-        margins = PaddingValues(top = 44.dp, bottom = 44.dp),
-        subDescColor = Color_Hint,
-        toggled = viewModel.navSuppressMediaToggleState.value
-    ) {
-        logInfo(TAG, "toggle nav suppress media to $it")
-        viewModel.navSuppressMediaToggleState.value = it
-    }
-
-    // 倒车抑制媒体音
-    CardToggleView(
-        description = stringResource(id = R.string.toggle_reverse_suppress_media_title),
-        hint = stringResource(id = R.string.toggle_reverse_suppress_media_sub_title),
-        margins = PaddingValues(bottom = 44.dp),
-        subDescColor = Color_Hint,
-        toggled = viewModel.reverseSuppressMediaToggleState.value
-    ) {
-        logInfo(TAG, "toggle reverse suppress media to $it")
-        viewModel.reverseSuppressMediaToggleState.value = it
-    }
-
-    // 报警提示音 选择
-    CardHorSwitchListView(
-        title = stringResource(R.string.switch_alarm_title),
-        switchInfos = ALARM_SWITCH_INFO,
-        selectedIndex = 0,
-    ) {
-        logInfo(TAG, "switch alarm to $it")
-    }
-
-    // 音量
-    VolumeView(viewModel)
 }
 
 @Composable

@@ -1,7 +1,9 @@
 package com.aptiv.settings.component.network
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,26 +49,28 @@ private const val TAG = "WifiComponent"
 
 @Composable
 fun NetworkComponent(viewModel: NetworkViewModel) {
-    // 无线网络开关
-    WifiToggle(viewModel)
+    Column(modifier = Modifier.fillMaxSize()) {
+        // 无线网络开关
+        WifiToggle(viewModel)
 
-    // 已保存的wifi列表
-    SavedWifiDeviceList()
+        // 已保存的wifi列表
+        SavedWifiDeviceList()
 
-    // 可用的wifi列表
-    AvailableWifiDeviceList()
+        // 可用的wifi列表
+        AvailableWifiDeviceList()
 
-    // 热点开关
-    HotspotToggle(viewModel)
+        // 热点开关
+        HotspotToggle(viewModel)
 
-    // 热点频段设置
-    HotspotSwitch(viewModel)
+        // 热点频段设置
+        HotspotSwitch(viewModel)
 
-    // 修改密码
-    PasswordEditView()
+        // 修改密码
+        PasswordEditView()
 
-    // 已连接热点的列表
-    ConnectedHotspotsList()
+        // 已连接热点的列表
+        ConnectedHotspotsList()
+    }
 }
 
 // wifi开关

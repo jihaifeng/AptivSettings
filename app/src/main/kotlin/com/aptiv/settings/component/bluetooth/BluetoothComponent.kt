@@ -3,8 +3,10 @@ package com.aptiv.settings.component.bluetooth
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,23 +39,25 @@ private const val TAG = "BluetoothComponent"
 
 @Composable
 fun BluetoothComponent(viewModel: BluetoothViewModel) {
-    val toggleState = remember { viewModel.btToggleState }
-    val isTurning =
-        toggleState.value == BTToggleState.STATE_TOGGLING_ON || toggleState.value == BTToggleState.STATE_TOGGLING_OFF
-    val isOnOrTogglingOn =
-        toggleState.value == BTToggleState.STATE_ON || toggleState.value == BTToggleState.STATE_TOGGLING_ON
+    Column(modifier = Modifier.fillMaxSize()) {
+        val toggleState = remember { viewModel.btToggleState }
+        val isTurning =
+            toggleState.value == BTToggleState.STATE_TOGGLING_ON || toggleState.value == BTToggleState.STATE_TOGGLING_OFF
+        val isOnOrTogglingOn =
+            toggleState.value == BTToggleState.STATE_ON || toggleState.value == BTToggleState.STATE_TOGGLING_ON
 
-    // 蓝牙开关
-    BluetoothToggle(viewModel, isOnOrTogglingOn, isTurning)
+        // 蓝牙开关
+        BluetoothToggle(viewModel, isOnOrTogglingOn, isTurning)
 
-    // 可检测开关
-    DiscoverToggle(toggleState, viewModel)
+        // 可检测开关
+        DiscoverToggle(toggleState, viewModel)
 
-    // 已配对设备列表
-    BondedDeviceList(viewModel)
+        // 已配对设备列表
+        BondedDeviceList(viewModel)
 
-    // 附近设备列表
-    NearbyDeviceList(viewModel)
+        // 附近设备列表
+        NearbyDeviceList(viewModel)
+    }
 }
 
 @Composable

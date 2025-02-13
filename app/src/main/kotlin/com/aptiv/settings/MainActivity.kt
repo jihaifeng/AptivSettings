@@ -193,7 +193,7 @@ class MainActivity : ComponentActivity() {
         val contentPaddingStart = dimensionResource(R.dimen.content_padding_start)
         val contentPaddingEnd = dimensionResource(R.dimen.content_padding_end)
         AnimatedContent(targetState = selectedState.intValue, label = "") { index ->
-            Column(
+            Box(
                 modifier = Modifier
                     .padding(
                         top = contentPaddingTop,
