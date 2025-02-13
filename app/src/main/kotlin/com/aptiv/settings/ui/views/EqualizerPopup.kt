@@ -69,7 +69,6 @@ private const val VALUE_TEXT_BOTTOM_PADDING_DP = 12    // 数值文本底部内�
 private const val DEFAULT_BUTTON_TOP_PADDING_DP = 25     // 默认按钮顶部内边距 (dp)
 private const val SLIDER_AREA_BOTTOM_PADDING_DP = 50 // 滑块区域底部内边距 (dp)
 private const val SLIDER_TRACKER_HEIGHT_DP = 300        // 滑块轨道高度 (dp)
-private const val SLIDER_SPACING_DP = 120             // 滑块之间的间隔 (dp)
 private const val SLIDER_THUMB_SIZE_DP = 18             // 滑块大小 (dp)
 private const val SLIDER_TRACKER_WIDTH_DP = 6           // 滑块轨道宽度 (dp)
 private const val RESTORE_DEFAULT_BUTTON_TEXT_SIZE_SP = 36  // 恢复默认值按钮文字大小 (sp)
@@ -88,19 +87,11 @@ private val VERTICAL_LABELS =
     listOf("-10", "-8", "-6", "-4", "-2", "0", "2", "4", "6", "8", "10") // 纵坐标标签列表
 private val DISPLAYED_VERTICAL_LABELS = listOf("-10", "0", "10") // 需要显示的纵坐标标签列表
 
-interface EqualizerPopupCallback {
-    fun onDismiss()
-    fun onRestore()
-}
-
 @Composable
-fun EqualizerPopup(
-    viewModel: SoundViewModel,
-    popupCallback: EqualizerPopupCallback
-) {
+fun EqualizerPopup(viewModel: SoundViewModel) {
     Dialog(
         onDismissRequest = {
-            popupCallback.onDismiss()
+            viewModel.equalizerPopupState.value = false
         },
         properties = DialogProperties(
             usePlatformDefaultWidth = false // 禁止默认宽度
@@ -174,13 +165,12 @@ fun EqualizerPopup(
                         .height(DEFAULT_BUTTON_HEIGHT_DP.dp)           // 设置按钮高度
                         .align(Alignment.CenterHorizontally),          // 水平居中按钮
                     onClick = {
-//                       viewModel.equalizerState_40Hz.floatValue = 0f
-//                       viewModel.equalizerState_80Hz.floatValue = 0f
-//                       viewModel.equalizerState_500Hz.floatValue = 0f
-//                       viewModel.equalizerState_1kHz.floatValue = 0f
-//                       viewModel.equalizerState_5kHz.floatValue = 0f
-//                       viewModel.equalizerState_16kHz.floatValue = 0f
-                        popupCallback.onRestore()
+                        viewModel.equalizerState_40Hz.floatValue = 0f
+                        viewModel.equalizerState_80Hz.floatValue = 0f
+                        viewModel.equalizerState_500Hz.floatValue = 0f
+                        viewModel.equalizerState_1kHz.floatValue = 0f
+                        viewModel.equalizerState_5kHz.floatValue = 0f
+                        viewModel.equalizerState_16kHz.floatValue = 0f
                     }
                 ) {
                     Text(
@@ -265,7 +255,6 @@ fun FrequencyView(modifier: Modifier = Modifier) {
                 val height = size.height
 
                 // 计算每个坐标轴的间隔
-                val horizontalSpacing = width / (HORIZONTAL_LABELS.size - 1)
                 val verticalSpacing = height / (VERTICAL_LABELS.size - 1)
 
                 // 画横线

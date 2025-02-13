@@ -39,7 +39,6 @@ import com.aptiv.settings.ui.views.CardHorSwitchListView
 import com.aptiv.settings.ui.views.CardToggleView
 import com.aptiv.settings.ui.views.DescText
 import com.aptiv.settings.ui.views.EqualizerPopup
-import com.aptiv.settings.ui.views.EqualizerPopupCallback
 import com.aptiv.settings.ui.views.HorizontalSliderWithDesc
 import com.aptiv.settings.ui.views.SwitchItem
 
@@ -48,22 +47,8 @@ private const val TAG = "SoundComponent"
 @Composable
 fun SoundComponent(viewModel: SoundViewModel) {
     if (viewModel.equalizerPopupState.value) {
-        EqualizerPopup(
-            viewModel,
-            object : EqualizerPopupCallback {
-                override fun onDismiss() {
-                    viewModel.equalizerPopupState.value = false
-                }
-
-                override fun onRestore() {
-                    viewModel.equalizerState_40Hz.floatValue = 0f
-                    viewModel.equalizerState_80Hz.floatValue = 0f
-                    viewModel.equalizerState_500Hz.floatValue = 0f
-                    viewModel.equalizerState_1kHz.floatValue = 0f
-                    viewModel.equalizerState_5kHz.floatValue = 0f
-                    viewModel.equalizerState_16kHz.floatValue = 0f
-                }
-            })
+        // 均衡器弹窗
+        EqualizerPopup(viewModel)
     }
     Column(modifier = Modifier.fillMaxSize()) {
         // 声场优化
